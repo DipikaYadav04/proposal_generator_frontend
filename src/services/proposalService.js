@@ -2,9 +2,9 @@ import axios from 'axios';
 
 // API Configuration
 // Development: http://localhost:8000 (Localhost for testing)
-// Production: https://fastapi-backend-proposal.onrender.com
+// Production: https://proposalgeneratorbackend-production.up.railway.app/
 const DEVELOPMENT_URL = 'http://localhost:8000';
-const PRODUCTION_URL = 'https://fastapi-backend-proposal.onrender.com';
+const PRODUCTION_URL = 'https://proposalgeneratorbackend-production.up.railway.app/';
 
 // Check if we're in development mode or if REACT_APP_USE_LOCAL is set
 const isDevelopment = process.env.NODE_ENV === 'development' || process.env.REACT_APP_USE_LOCAL === 'true';
