@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 // API Configuration - default to production backend unless overridden
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://proposalgeneratorbackend-production.up.railway.app/';
+// Note: no trailing slash so that path concatenation doesn't create "//auth/..."
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://proposalgeneratorbackend-production.up.railway.app';
 const SESSION_CHECK_PATH = process.env.REACT_APP_SESSION_CHECK_PATH || '/auth/session';
 const LOGIN_PATH = process.env.REACT_APP_LOGIN_PATH || '/auth/login';
 const LOGOUT_PATH = process.env.REACT_APP_LOGOUT_PATH || '/auth/logout';
