@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import LoginForm from './LoginForm';
-import { checkSession, getPreseedKey, submitApiKey, sanitizeUrl } from './authService';
+import { checkSession, getPreseedKey, submitApiKey, sanitizeUrl, pingAuthServer } from './authService';
 
 const AuthGate = ({ children }) => {
   const [authState, setAuthState] = useState({
@@ -10,6 +10,8 @@ const AuthGate = ({ children }) => {
     error: null
   });
 
+  const [connectionStatus, setConnectionStatus] = useState('checking');
+
   useEffect(() => {
     initAuth();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -17,6 +19,10 @@ const AuthGate = ({ children }) => {
 
   const initAuth = async () => {
     try {
+      // First, check if the auth server is reachable so we can update the UI indicator
+      const pingResult = await pingAuthServer();
+      setConnectionStatus(pingResult.reachable ? 'online' : 'offline');
+
       const hasSession = await checkSession();
       
       if (hasSession) {
@@ -49,6 +55,8 @@ const AuthGate = ({ children }) => {
         isLoggingIn: false,
         error: 'Failed to initialize authentication'
       });
+
+      setConnectionStatus('offline');
     }
   };
 
@@ -116,6 +124,7 @@ const AuthGate = ({ children }) => {
       onSubmit={(apiKey) => handleLogin(apiKey, false)}
       error={authState.error}
       isLoading={authState.isLoggingIn}
+      connectionStatus={connectionStatus}
     />
   );
 };

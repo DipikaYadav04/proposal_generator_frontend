@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const LoginForm = ({ onSubmit, error, isLoading }) => {
+const LoginForm = ({ onSubmit, error, isLoading, connectionStatus = 'checking' }) => {
   const [adminKey, setAdminKey] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
@@ -51,6 +51,14 @@ const LoginForm = ({ onSubmit, error, isLoading }) => {
           <p style={styles.subtitle}>
             Please authenticate to access the system
           </p>
+          <div style={styles.statusRow}>
+            <span style={styles.statusDot(connectionStatus)} />
+            <span style={styles.statusText}>
+              {connectionStatus === 'online' && 'Connected to backend'}
+              {connectionStatus === 'offline' && 'Cannot reach backend'}
+              {connectionStatus === 'checking' && 'Checking backend connection...'}
+            </span>
+          </div>
         </div>
 
         <form onSubmit={handleSubmit} style={styles.form}>
@@ -282,6 +290,34 @@ const styles = {
     color: '#666',
     lineHeight: '1.5'
   },
+  statusRow: {
+    marginTop: '12px',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: '8px'
+  },
+  statusText: {
+    fontSize: '0.85rem',
+    color: '#555',
+    fontWeight: 500
+  },
+  statusDot: (status) => ({
+    width: '10px',
+    height: '10px',
+    borderRadius: '50%',
+    backgroundColor:
+      status === 'online'
+        ? '#2ECC71'
+        : status === 'offline'
+        ? '#e74c3c'
+        : '#f1c40f',
+    boxShadow:
+      status === 'online'
+        ? '0 0 10px rgba(46, 204, 113, 0.8)'
+        : '0 0 4px rgba(0, 0, 0, 0.15)',
+    transition: 'all 0.3s ease'
+  }),
   form: {
     padding: '20px 40px 30px'
   },

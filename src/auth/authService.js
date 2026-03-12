@@ -32,6 +32,29 @@ export const checkSession = async () => {
   }
 };
 
+/**
+ * Lightweight connectivity check used for the login screen indicator.
+ * Returns whether the auth server is reachable, without requiring a valid session.
+ */
+export const pingAuthServer = async () => {
+  try {
+    const response = await axios.get(SESSION_CHECK_PATH, {
+      withCredentials: true,
+      validateStatus: () => true
+    });
+
+    return {
+      reachable: true,
+      status: response.status
+    };
+  } catch (error) {
+    return {
+      reachable: false,
+      error
+    };
+  }
+};
+
 export const getPreseedKey = () => {
   try {
     const urlParams = new URLSearchParams(window.location.search);
@@ -212,6 +235,7 @@ initHttpClient();
 const authService = {
   initHttpClient,
   checkSession,
+  pingAuthServer,
   getPreseedKey,
   submitApiKey,
   clearSession,
