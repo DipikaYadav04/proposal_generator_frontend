@@ -250,6 +250,88 @@ const TermsAndConditions = ({ selectedTerms = [], onTermsChange, serviceType = '
           'The consultancy fee quoted in the proposal will be revised if the project construction time exceeds three years from the date the work order is finalized.'
         ];
       
+      case 'leed-hospitality':
+        return [
+          'Taxes shall be applicable extra as per government norms at the time of realization.',
+          'The quotation is for one-time certification.',
+          'Basis of Quotation: The quotation is furnished which is only valid for the scope that has been indicated in the quote & the data provided.',
+          'A single point of contact from the client\'s team shall be appointed for coordination and exchange of project specific information seamlessly.',
+          'The payments shall be billed as per the said stages and milestones of the project.',
+          'The registration, precertification and certification fees shall be borne by the client and be paid directly to USGBC as applicable and are dependent on the total built up area of the project.',
+          'The client shall ensure that the necessary data required for the said mentioned services is provided.',
+          'The cost towards travel, accommodation, and food has not been included in the proposal and will be borne by the client, to be charged as per actuals.',
+          'Any delay on account of data sharing shall not be covered in the responsibility of D2O.'
+        ];
+      
+      case 'leed-nc':
+        return [
+          'Taxes shall be applicable extra as per government norms at the time of realization.',
+          'The quotation is for one-time certification.',
+          'Basis of Quotation: The quotation is furnished which is only valid for the scope that has been indicated in the quote & the data provided.',
+          'A single point of contact from the client\'s team shall be appointed for coordination and exchange of project specific information seamlessly.',
+          'The payments shall be billed as per the said stages and milestones of the project.',
+          'The registration, precertification and certification fees shall be borne by the client and be paid directly to USGBC as applicable and are dependent on the total built up area of the project.',
+          'The client shall ensure that the necessary data required for the said mentioned services is provided.',
+          'The cost towards travel, accommodation and food charges is not considered in the proposal and will be charged extra.',
+          'Any delay on account of data sharing shall not be covered in the responsibility of D2O.'
+        ];
+      
+      case 'leed-core-shell':
+        return [
+          'Taxes shall be applicable extra as per government norms at the time of realization.',
+          'The quotation is for one-time certification.',
+          'Basis of Quotation: The quotation is furnished which is only valid for the scope that has been indicated in the quote & the data provided.',
+          'A single point of contact from the client\'s team shall be appointed for coordination and exchange of project specific information seamlessly.',
+          'The payments shall be billed as per the said stages and milestones of the project.',
+          'The registration, certification and Expedite fees shall be borne by the client and be paid directly to Council as applicable.',
+          'LEED Commissioning is not included in this proposal.',
+          'The cost towards travel, accommodation and food charges is not considered in the proposal and will be charged extra.',
+          'The consultancy fee quoted in the proposal will be revised if the project construction time exceeds three years from the date the work order is finalized.'
+        ];
+      
+      case 'leed-net-zero-carbon':
+        return [
+          'Taxes shall be applicable extra as per government norms at the time of realization.',
+          'The quotation is for one-time certification.',
+          'Basis of Quotation: The quotation is furnished which is only valid for the scope that has been indicated in the quote & the data provided.',
+          'A single point of contact from the client\'s team shall be appointed for coordination and exchange of project specific information seamlessly.',
+          'The payments shall be billed as per the said stages and milestones of the project.',
+          'The registration, precertification and certification fees shall be borne by the client and be paid directly to USGBC as applicable and are dependent on the total built up area of the project.',
+          'The client shall ensure that the necessary data required for the said mentioned services is provided.',
+          'Any delay on account of data sharing shall not be covered in the responsibility of D2O.'
+        ];
+      
+      case 'leed-zero-water':
+        return [
+          'GST shall be extra applicable as per government norms at the time of realization.',
+          'The quotation is for one-time certification. The validity of Certification will be for 3 years.',
+          'Basis of Quotation: The quotation is furnished which is only valid for the scope that has been indicated in the quote & the data provided.',
+          'A single point of contact from the client\'s team shall be appointed for coordination and exchange of project specific information seamlessly.',
+          'The payments shall be billed as per the said stages and milestones of the project.',
+          'The certification fees shall be borne by the client and be paid directly to USGBC as applicable.',
+          'The travelling and boarding charges are borne by the client at the actuals.'
+        ];
+      
+      case 'leed-idci':
+        return [
+          'Basis of Quotation: The quotation is furnished which is only valid for the scope that has been indicated in the quote & the data provided.',
+          'A single point of contact from the client\'s team shall be appointed for coordination and exchange of project specific information seamlessly.',
+          'The registration and certification fee to be paid to GBCI is based on built up area shared by the client and may vary after area calculation done by D2O team.',
+          'The project duration for LEED certification will extend for an additional 2 months beyond the completion of the fit-out phase. As the submission for the project document for review cannot be done to USGBC council until and unless all HVAC system and interior fit out works have been completed on site.',
+          'The cost towards travel, accommodation and food charges is not considered in the proposal and will be charged extra.',
+          'The consultancy fee quoted in the proposal will be revised if the project construction time exceeds three years from the date the work order is finalized.'
+        ];
+      
+      case 'leed-ebom':
+        return [
+          'Taxes shall be applicable extra as per government norms at the time of realization.',
+          'The quotation is for one-time certification.',
+          'Basis of Quotation: The quotation is furnished which is only valid for the scope that has been indicated in the quote & the data provided.',
+          'A single point of contact from the client\'s team shall be appointed for coordination and exchange of project specific information seamlessly.',
+          'The registration and certification fee which needs to be paid to USGBC Council to be borne by the client as per their consultation with GBCI.',
+          'The travelling, boarding and lodging expenses will be covered by the client in advance.'
+        ];
+      
       default:
         return [
           'GST shall be extra applicable as per government norms at the time of realization.',

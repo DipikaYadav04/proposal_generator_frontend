@@ -2,9 +2,9 @@ import axios from 'axios';
 
 // API Configuration
 // Development: http://localhost:8000 (Localhost for testing)
-// Production: https://proposalgeneratorbackend-production.up.railway.app/
+// Production: https://fastapi-backend-proposal.onrender.com
 const DEVELOPMENT_URL = 'http://localhost:8000';
-const PRODUCTION_URL = 'https://proposalgeneratorbackend-production.up.railway.app/';
+const PRODUCTION_URL = 'https://fastapi-backend-proposal.onrender.com';
 
 // Check if we're in development mode or if REACT_APP_USE_LOCAL is set
 const isDevelopment = process.env.NODE_ENV === 'development' || process.env.REACT_APP_USE_LOCAL === 'true';
@@ -111,6 +111,13 @@ export const generateProposal = async (formData) => {
       'ecbc-bc': 'Proposal for ECBC Compliance B& C.docx',
       'ecbc-abc': 'Proposal for ECBC Compliance A, B& C.docx',
       'edge-consultancy-audit': 'EDGE Consultancy & Audit Draft Placeholder.docx',
+      'leed-hospitality': 'LEED Certification_ Hospitality 2.docx',
+      'leed-core-shell': 'LEED Certification_Core & Shell 2.docx',
+      'leed-nc': 'LEED NC Certification 2.docx',
+      'leed-ebom': 'LEED_EBOM 2.docx',
+      'leed-net-zero-carbon': 'LEED Net Zero Carbon  1.docx',
+      'leed-zero-water': 'LEED Zero Water Certification  1.docx',
+      'leed-idci': 'LEED v4 ID+CI Certification 1.docx',
       'template2': 'Other Service.docx'
     };
 
@@ -226,6 +233,63 @@ export const generateProposal = async (formData) => {
       // Area field is required for IGBC Green Factory (in Sqm)
       const areaValue = formData.area ? String(formData.area).replace(/,/g, '') : '0';
       payload.area = areaValue; // Send area in Sqm
+    }
+
+    // Add LEED Area_ft (for templates that have it - extracted from areaSqFt field)
+    const leedAreaFtTemplates = ['leed-hospitality', 'leed-core-shell', 'leed-nc', 'leed-net-zero-carbon', 'leed-idci'];
+    if (leedAreaFtTemplates.includes(formData.template) && formData.areaSqFt) {
+      payload.area_ft = String(formData.areaSqFt).replace(/,/g, '');
+    }
+
+    // Add LEED Design_and_Construction_Cost (for templates that have it)
+    const leedDesignCostTemplates = ['leed-hospitality', 'leed-nc', 'leed-idci'];
+    if (leedDesignCostTemplates.includes(formData.template) && formData.designAndConstructionCost) {
+      payload.design_and_construction_cost = String(formData.designAndConstructionCost || '0');
+    }
+
+    // Add LEED Registration_Cost and Total_Cost (for Hospitality, NC, ID+CI)
+    const leedRegistrationTemplates = ['leed-hospitality', 'leed-nc', 'leed-idci'];
+    if (leedRegistrationTemplates.includes(formData.template)) {
+      if (formData.registrationCost) {
+        payload.registration_cost = String(formData.registrationCost || '0');
+      }
+      
+      const regFee = parseAmount(formData.registrationCost);
+      const designCost = parseAmount(formData.designAndConstructionCost);
+      const totalCouncilFees = regFee + designCost;
+      
+      payload.total_cost = formatIndianCommas(totalCouncilFees);
+      payload.s_currency = String(formData.currency || 'INR');
+    }
+
+    // Add LEED NC specific 3 service costs
+    if (formData.template === 'leed-nc') {
+      if (formData.cost1) {
+        payload.cost_1 = String(formData.cost1 || '0');
+      }
+      if (formData.cost2) {
+        payload.cost_2 = String(formData.cost2 || '0');
+      }
+      if (formData.cost3) {
+        payload.cost_3 = String(formData.cost3 || '0');
+      }
+      
+      // For LEED NC, total_cost = registration + design_and_construction
+      const regFee = parseAmount(formData.registrationCost);
+      const designCost = parseAmount(formData.designAndConstructionCost);
+      const totalCouncilFees = regFee + designCost;
+      payload.total_cost = formatIndianCommas(totalCouncilFees);
+      payload.s_currency = String(formData.currency || 'INR');
+    }
+
+    // Add LEED Core & Shell specific fees
+    if (formData.template === 'leed-core-shell') {
+      if (formData.feasibilityFees) {
+        payload.feasibility_fees = String(formData.feasibilityFees || '0');
+      }
+      if (formData.wellCertificationFees) {
+        payload.well_certification_fees = String(formData.wellCertificationFees || '0');
+      }
     }
 
     console.log('📋 Submitting form data:', formData);
@@ -434,7 +498,18 @@ export const validateFormData = (formData) => {
     errors.push('Date is required');
   }
 
-  if (!formData.cost || parseFloat(String(formData.cost).replace(/,/g, '')) <= 0) {
+  // For LEED NC, validate the 3 separate service costs instead of single cost
+  if (formData.template === 'leed-nc') {
+    if (!formData.cost1 || parseFloat(String(formData.cost1).replace(/,/g, '')) <= 0) {
+      errors.push('LEED BD+C v4 Facilitation cost must be a positive number');
+    }
+    if (!formData.cost2 || parseFloat(String(formData.cost2).replace(/,/g, '')) <= 0) {
+      errors.push('Fundamental Commissioning cost must be a positive number');
+    }
+    if (!formData.cost3 || parseFloat(String(formData.cost3).replace(/,/g, '')) <= 0) {
+      errors.push('Envelope Commissioning cost must be a positive number');
+    }
+  } else if (!formData.cost || parseFloat(String(formData.cost).replace(/,/g, '')) <= 0) {
     errors.push('Cost must be a positive number');
   }
 

@@ -45,6 +45,18 @@ const SERVICE_CATEGORIES = {
                     { value: 'edge-consultancy-audit', label: 'EDGE Consultancy & Audit' },
                 ],
             },
+            'leed': {
+                label: 'LEED',
+                templates: [
+                    { value: 'leed-hospitality', label: 'LEED Certification: Hospitality' },
+                    { value: 'leed-core-shell', label: 'LEED Certification: Core & Shell' },
+                    { value: 'leed-nc', label: 'LEED NC Certification' },
+                    { value: 'leed-ebom', label: 'LEED EBOM' },
+                    { value: 'leed-net-zero-carbon', label: 'LEED Net Zero Carbon' },
+                    { value: 'leed-zero-water', label: 'LEED Zero Water Certification' },
+                    { value: 'leed-idci', label: 'LEED v4 ID+CI Certification' },
+                ],
+            },
         },
     },
     'mep': {

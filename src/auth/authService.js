@@ -1,8 +1,7 @@
 import axios from 'axios';
 
 // API Configuration - default to production backend unless overridden
-// Note: no trailing slash so that path concatenation doesn't create "//auth/..."
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://proposalgeneratorbackend-production.up.railway.app';
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL || 'https://fastapi-backend-proposal.onrender.com';
 const SESSION_CHECK_PATH = process.env.REACT_APP_SESSION_CHECK_PATH || '/auth/session';
 const LOGIN_PATH = process.env.REACT_APP_LOGIN_PATH || '/auth/login';
 const LOGOUT_PATH = process.env.REACT_APP_LOGOUT_PATH || '/auth/logout';
@@ -30,29 +29,6 @@ export const checkSession = async () => {
     return response.data?.authenticated === true;
   } catch (error) {
     return false;
-  }
-};
-
-/**
- * Lightweight connectivity check used for the login screen indicator.
- * Returns whether the auth server is reachable, without requiring a valid session.
- */
-export const pingAuthServer = async () => {
-  try {
-    const response = await axios.get(SESSION_CHECK_PATH, {
-      withCredentials: true,
-      validateStatus: () => true
-    });
-
-    return {
-      reachable: true,
-      status: response.status
-    };
-  } catch (error) {
-    return {
-      reachable: false,
-      error
-    };
   }
 };
 
@@ -236,7 +212,6 @@ initHttpClient();
 const authService = {
   initHttpClient,
   checkSession,
-  pingAuthServer,
   getPreseedKey,
   submitApiKey,
   clearSession,
