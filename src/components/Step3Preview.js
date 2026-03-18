@@ -26,6 +26,14 @@ const Step3Preview = ({ formData, handlePrevious, isSubmitting, generatedFilenam
         'igbc-green-interiors': 'IGBC Green Interiors Certification',
         'igbc-mrts': 'IGBC MRTS Certification',
         'igbc-net-zero': 'IGBC Net Zero Certification',
+        'leed-hospitality': 'LEED Certification: Hospitality',
+        'leed-core-shell': 'LEED Certification: Core & Shell',
+        'leed-nc': 'LEED NC Certification',
+        'leed-new-construction': 'LEED New Construction',
+        'leed-ebom': 'LEED EBOM',
+        'leed-net-zero-carbon': 'LEED Net Zero Carbon',
+        'leed-zero-water': 'LEED Zero Water Certification',
+        'leed-idci': 'LEED v4 ID+CI Certification',
         'edge-consultancy-audit': 'EDGE Consultancy & Audit',
         'ecbc-a': 'ECBC Form A',
         'ecbc-bc': 'ECBC Form B&C',
@@ -149,8 +157,62 @@ const Step3Preview = ({ formData, handlePrevious, isSubmitting, generatedFilenam
                 </div>
             </div>
 
-            {/* Financial Details - Show IGBC fee breakdown for existing building or green services */}
-            {(formData.template === 'igbc-existing-building' || formData.template === 'igbc-green-services-building' || formData.template === 'igbc-green-interiors') ? (
+            {/* Financial Details - IGBC Net Zero with 3 council fee tables */}
+            {formData.template === 'igbc-net-zero' ? (
+                <div className="preview-section">
+                    <h3 className="preview-heading">Fee Structure</h3>
+                    <div className="preview-grid">
+                        <div className="preview-item">
+                            <span className="preview-label">Currency:</span>
+                            <span className="preview-value">{formData.currency || 'INR'}</span>
+                        </div>
+                        {formData.cost && (
+                            <div className="preview-item">
+                                <span className="preview-label">Consultancy Cost:</span>
+                                <span className="preview-value">{formData.currency || 'INR'} {formatCostWithCommas(formData.cost)}</span>
+                            </div>
+                        )}
+                    </div>
+                    <h4 style={{ fontSize: '0.95rem', fontWeight: '600', color: '#2c3e50', margin: '16px 0 8px 0' }}>
+                        Council Fees
+                    </h4>
+                    {[
+                        { label: 'IGBC NET Zero Energy', reg: formData.registrationFeesE, cert: formData.certificationFeesE },
+                        { label: 'IGBC NET Zero Water', reg: formData.registrationFeesW, cert: formData.certificationFeesW },
+                        { label: 'IGBC NET Zero Waste', reg: formData.registrationFeesWa, cert: formData.certificationFeesWa },
+                    ].map((section, idx) => {
+                        const regVal = parseInt((section.reg || '0').toString().replace(/,/g, ''), 10) || 0;
+                        const certVal = parseInt((section.cert || '0').toString().replace(/,/g, ''), 10) || 0;
+                        return (
+                            <div key={idx} style={{ marginBottom: '12px' }}>
+                                <div style={{ border: '1px solid #e0e0e0', borderRadius: '8px', overflow: 'hidden' }}>
+                                    <div style={{ display: 'grid', gridTemplateColumns: '50px 1fr 150px', background: '#f8f9fa', fontWeight: '600', fontSize: '0.9rem' }}>
+                                        <div style={{ padding: '10px', textAlign: 'center' }}>S.No.</div>
+                                        <div style={{ padding: '10px' }}>Service for {section.label}</div>
+                                        <div style={{ padding: '10px', textAlign: 'right' }}>Fees ({formData.currency || 'INR'})*</div>
+                                    </div>
+                                    <div style={{ display: 'grid', gridTemplateColumns: '50px 1fr 150px', borderTop: '1px solid #e0e0e0' }}>
+                                        <div style={{ padding: '10px', textAlign: 'center' }}>1</div>
+                                        <div style={{ padding: '10px' }}>Registration</div>
+                                        <div style={{ padding: '10px', textAlign: 'right' }}>{formatCostWithCommas(section.reg) || '—'}</div>
+                                    </div>
+                                    <div style={{ display: 'grid', gridTemplateColumns: '50px 1fr 150px', borderTop: '1px solid #e0e0e0' }}>
+                                        <div style={{ padding: '10px', textAlign: 'center' }}>2</div>
+                                        <div style={{ padding: '10px' }}>Certification</div>
+                                        <div style={{ padding: '10px', textAlign: 'right' }}>{formatCostWithCommas(section.cert) || '—'}</div>
+                                    </div>
+                                    <div style={{ display: 'grid', gridTemplateColumns: '50px 1fr 150px', borderTop: '1px solid #e0e0e0', background: '#f0f9f4', fontWeight: '700' }}>
+                                        <div style={{ padding: '10px' }}></div>
+                                        <div style={{ padding: '10px' }}>Total</div>
+                                        <div style={{ padding: '10px', textAlign: 'right', color: '#27AE60' }}>{formatCostWithCommas(regVal + certVal)}</div>
+                                    </div>
+                                </div>
+                                <p style={{ fontSize: '0.75rem', color: '#666', fontStyle: 'italic', margin: '4px 0 0 0' }}>*GST Extra</p>
+                            </div>
+                        );
+                    })}
+                </div>
+            ) : (formData.template === 'igbc-existing-building' || formData.template === 'igbc-green-services-building' || formData.template === 'igbc-green-interiors') ? (
                 <div className="preview-section">
                     <h3 className="preview-heading">Fee Structure</h3>
                     <div className="preview-grid">
@@ -290,25 +352,55 @@ const Step3Preview = ({ formData, handlePrevious, isSubmitting, generatedFilenam
                             <p className="preview-text">No terms selected</p>
                         )}
                     </div>
-                    <div className="preview-item full-width">
-                        <span className="preview-label">Payment Schedule:</span>
-                        {formData.paymentSchedule && formData.paymentSchedule.length > 0 ? (
-                            <div className="preview-payment-schedule">
-                                {formData.paymentSchedule.map((item, index) => (
-                                    <div key={index} className="preview-payment-item">
-                                        <span className="payment-milestone">{index + 1}. {item.title}</span>
-                                        <span className="payment-percent">{item.percent}%</span>
-                                    </div>
-                                ))}
-                                <div className="preview-payment-total">
-                                    <span>Total:</span>
-                                    <span>{formData.paymentSchedule.reduce((sum, item) => sum + item.percent, 0).toFixed(1)}%</span>
+                    {formData.template === 'igbc-net-zero' ? (
+                        <>
+                            {[
+                                { label: 'Payment Schedule — Energy', data: formData.paymentScheduleEnergy },
+                                { label: 'Payment Schedule — Water', data: formData.paymentScheduleWater },
+                                { label: 'Payment Schedule — Waste', data: formData.paymentScheduleWaste },
+                            ].map((schedule, idx) => (
+                                <div key={idx} className="preview-item full-width" style={{ marginTop: idx > 0 ? '12px' : 0 }}>
+                                    <span className="preview-label">{schedule.label}:</span>
+                                    {schedule.data && schedule.data.length > 0 ? (
+                                        <div className="preview-payment-schedule">
+                                            {schedule.data.map((item, index) => (
+                                                <div key={index} className="preview-payment-item">
+                                                    <span className="payment-milestone">{index + 1}. {item.title}</span>
+                                                    <span className="payment-percent">{item.percent}%</span>
+                                                </div>
+                                            ))}
+                                            <div className="preview-payment-total">
+                                                <span>Total:</span>
+                                                <span>{schedule.data.reduce((sum, item) => sum + item.percent, 0).toFixed(1)}%</span>
+                                            </div>
+                                        </div>
+                                    ) : (
+                                        <p className="preview-text">No payment schedule added</p>
+                                    )}
                                 </div>
-                            </div>
-                        ) : (
-                            <p className="preview-text">No payment schedule added</p>
-                        )}
-                    </div>
+                            ))}
+                        </>
+                    ) : (
+                        <div className="preview-item full-width">
+                            <span className="preview-label">Payment Schedule:</span>
+                            {formData.paymentSchedule && formData.paymentSchedule.length > 0 ? (
+                                <div className="preview-payment-schedule">
+                                    {formData.paymentSchedule.map((item, index) => (
+                                        <div key={index} className="preview-payment-item">
+                                            <span className="payment-milestone">{index + 1}. {item.title}</span>
+                                            <span className="payment-percent">{item.percent}%</span>
+                                        </div>
+                                    ))}
+                                    <div className="preview-payment-total">
+                                        <span>Total:</span>
+                                        <span>{formData.paymentSchedule.reduce((sum, item) => sum + item.percent, 0).toFixed(1)}%</span>
+                                    </div>
+                                </div>
+                            ) : (
+                                <p className="preview-text">No payment schedule added</p>
+                            )}
+                        </div>
+                    )}
                 </div>
             )}
 

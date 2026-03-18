@@ -162,7 +162,32 @@ const PaymentSchedule = ({ paymentItems = [], setPaymentItems, serviceType = 'en
           { title: 'After the first submission to IGBC', percent: 20 },
           { title: 'After receiving the IGBC rating', percent: 10 }
         ];
-      
+
+      case 'igbc-net-zero-energy':
+        return [
+          { title: 'Along With Work Order', percent: 25 },
+          { title: 'On submission of Detailed feasibility report', percent: 25 },
+          { title: 'On Submission of Simulation Report', percent: 20 },
+          { title: 'On submission of documents to IGBC', percent: 20 },
+          { title: 'On receipt of Certification', percent: 10 }
+        ];
+
+      case 'igbc-net-zero-water':
+        return [
+          { title: 'Along With Work Order', percent: 25 },
+          { title: 'On submission Feasibility with implementation suggestions', percent: 35 },
+          { title: 'On submission of documents to IGBC', percent: 20 },
+          { title: 'On receipt of Certification', percent: 20 }
+        ];
+
+      case 'igbc-net-zero-waste':
+        return [
+          { title: 'Along With Work Order', percent: 25 },
+          { title: 'On submission Feasibility with implementation suggestions', percent: 35 },
+          { title: 'On submission of documents to IGBC', percent: 20 },
+          { title: 'On receipt of Certification', percent: 20 }
+        ];
+
       case 'igbc-green-homes':
         return [
           { title: 'Advance on Appointment', percent: 15 },
@@ -193,11 +218,31 @@ const PaymentSchedule = ({ paymentItems = [], setPaymentItems, serviceType = 'en
           { title: 'Award of Final Certification', percent: 10 }
         ];
       
+      case 'leed-core-shell':
+        return [
+          { title: 'Along With Work order', percent: 20 },
+          { title: 'Submission of Detailed Feasibility Report', percent: 20 },
+          { title: 'Submission of Energy and Daylight Simulation Report', percent: 20 },
+          { title: 'Preliminary submission to USGBC for Certification', percent: 15 },
+          { title: 'Final submission to USGBC for Certification', percent: 15 },
+          { title: 'Award of Final Certification', percent: 10 }
+        ];
+      
       case 'leed-nc':
         return [
           { title: 'Along With Work order', percent: 20 },
           { title: 'Submission of Detailed Feasibility Report', percent: 20 },
           { title: 'Submission of Energy and Daylight Simulation Report', percent: 20 },
+          { title: 'Preliminary submission to USGBC for Certification', percent: 15 },
+          { title: 'Final submission to USGBC for Certification', percent: 15 },
+          { title: 'Award of Final Certification', percent: 10 }
+        ];
+
+      case 'leed-new-construction':
+        return [
+          { title: 'Along With Work order', percent: 20 },
+          { title: 'Submission of Detailed Feasibility Report', percent: 20 },
+          { title: 'Submission of Energy and Daylight Simulation Report / Completion of OPR & BOD', percent: 20 },
           { title: 'Preliminary submission to USGBC for Certification', percent: 15 },
           { title: 'Final submission to USGBC for Certification', percent: 15 },
           { title: 'Award of Final Certification', percent: 10 }

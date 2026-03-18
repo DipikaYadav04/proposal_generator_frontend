@@ -225,7 +225,18 @@ const TermsAndConditions = ({ selectedTerms = [], onTermsChange, serviceType = '
           'The consultancy fee quoted in the proposal will be revised if the project construction time exceeds three years from the date the work order is finalized.',
           'Travel, boarding, and lodging charges are not included in the above fees and will be charged as per actuals, to be borne by the client.'
         ];
-      
+
+      case 'igbc-net-zero':
+        return [
+          'GST shall be applicable extra as per government norms at the time of realization.',
+          'The quotation is for one-time certification.',
+          'Basis of Quotation: The quotation is furnished which is only valid for the scope that has been indicated in the quote & the data provided.',
+          'A single point of contact from the client\'s team shall be appointed for coordination and exchange of project specific information seamlessly.',
+          'The Energy, Water, and Waste council fees to be paid to IGBC are based on the built-up area shared by the client and may vary after area calculation done by D2O team.',
+          'Travel, lodging, boarding, and food charges are not included in the above scope and the same will be borne by the Client as per actuals.',
+          'The consultancy fee quoted in the proposal will be revised if the project construction time exceeds three years from the date the work order is finalized.'
+        ];
+
       case 'igbc-green-homes':
         return [
           'GST shall be applicable extra as per government norms at the time of realization.',
@@ -239,28 +250,29 @@ const TermsAndConditions = ({ selectedTerms = [], onTermsChange, serviceType = '
           'Travel, lodging, Boarding, and food charges are not included in the above scope and the same will be borne by the Client.'
         ];
       
-      case 'igbc-green-school':
+      case 'leed-hospitality':
         return [
           'GST shall be applicable extra as per government norms at the time of realization.',
-          'The quotation is for one-time certification.',
           'Basis of Quotation: The quotation is furnished which is only valid for the scope that has been indicated in the quote & the data provided.',
+          'The Project Registration and Certification fees shall be paid directly by the client to USGBC/GBCI and are not included in the prices indicated above.',
           'A single point of contact from the client\'s team shall be appointed for coordination and exchange of project specific information seamlessly.',
-          'The registration and certification fee to be paid to IGBC council is based on built up area shared by the client and may vary after area calculation done by D2O team.',
-          'Travel, lodging, Boarding, and food charges are not included in the above scope and the same will be borne by the Client.',
+          'The client shall ensure that the necessary data required for the said building is provided.',
+          'Client must incorporate all mandatory measures required for LEED certification.',
+          'Travel, lodging, Boarding, and food charges are not included in the above scope and the same will be borne by the Client as per actuals.',
           'The consultancy fee quoted in the proposal will be revised if the project construction time exceeds three years from the date the work order is finalized.'
         ];
       
-      case 'leed-hospitality':
+      case 'leed-core-shell':
         return [
           'Taxes shall be applicable extra as per government norms at the time of realization.',
           'The quotation is for one-time certification.',
           'Basis of Quotation: The quotation is furnished which is only valid for the scope that has been indicated in the quote & the data provided.',
           'A single point of contact from the client\'s team shall be appointed for coordination and exchange of project specific information seamlessly.',
           'The payments shall be billed as per the said stages and milestones of the project.',
-          'The registration, precertification and certification fees shall be borne by the client and be paid directly to USGBC as applicable and are dependent on the total built up area of the project.',
-          'The client shall ensure that the necessary data required for the said mentioned services is provided.',
-          'The cost towards travel, accommodation, and food has not been included in the proposal and will be borne by the client, to be charged as per actuals.',
-          'Any delay on account of data sharing shall not be covered in the responsibility of D2O.'
+          'The registration, certification and Expedite fees shall be borne by the client and be paid directly to Council as applicable.',
+          'LEED Commissioning is not included in this proposal.',
+          'The cost towards travel, accommodation and food charges is not considered in the proposal and will be charged extra.',
+          'The consultancy fee quoted in the proposal will be revised if the project construction time exceeds three years from the date the work order is finalized.'
         ];
       
       case 'leed-nc':
@@ -275,18 +287,17 @@ const TermsAndConditions = ({ selectedTerms = [], onTermsChange, serviceType = '
           'The cost towards travel, accommodation and food charges is not considered in the proposal and will be charged extra.',
           'Any delay on account of data sharing shall not be covered in the responsibility of D2O.'
         ];
-      
-      case 'leed-core-shell':
+
+      case 'leed-new-construction':
         return [
-          'Taxes shall be applicable extra as per government norms at the time of realization.',
+          'GST shall be extra applicable as per government norms at the time of realization.',
           'The quotation is for one-time certification.',
           'Basis of Quotation: The quotation is furnished which is only valid for the scope that has been indicated in the quote & the data provided.',
           'A single point of contact from the client\'s team shall be appointed for coordination and exchange of project specific information seamlessly.',
           'The payments shall be billed as per the said stages and milestones of the project.',
-          'The registration, certification and Expedite fees shall be borne by the client and be paid directly to Council as applicable.',
-          'LEED Commissioning is not included in this proposal.',
-          'The cost towards travel, accommodation and food charges is not considered in the proposal and will be charged extra.',
-          'The consultancy fee quoted in the proposal will be revised if the project construction time exceeds three years from the date the work order is finalized.'
+          'The client shall ensure that the necessary data required for the said mentioned services is provided.',
+          'The travelling, boarding and lodging expenses is not included and will be covered by the client in actuals.',
+          'The registration, certification fees shall be borne by the client and be paid directly to USGBC as applicable.'
         ];
       
       case 'leed-net-zero-carbon':
@@ -330,6 +341,17 @@ const TermsAndConditions = ({ selectedTerms = [], onTermsChange, serviceType = '
           'A single point of contact from the client\'s team shall be appointed for coordination and exchange of project specific information seamlessly.',
           'The registration and certification fee which needs to be paid to USGBC Council to be borne by the client as per their consultation with GBCI.',
           'The travelling, boarding and lodging expenses will be covered by the client in advance.'
+        ];
+      
+      case 'igbc-green-school':
+        return [
+          'GST shall be applicable extra as per government norms at the time of realization.',
+          'The quotation is for one-time certification.',
+          'Basis of Quotation: The quotation is furnished which is only valid for the scope that has been indicated in the quote & the data provided.',
+          'A single point of contact from the client\'s team shall be appointed for coordination and exchange of project specific information seamlessly.',
+          'The registration and certification fee to be paid to IGBC council is based on built up area shared by the client and may vary after area calculation done by D2O team.',
+          'Travel, lodging, Boarding, and food charges are not included in the above scope and the same will be borne by the Client.',
+          'The consultancy fee quoted in the proposal will be revised if the project construction time exceeds three years from the date the work order is finalized.'
         ];
       
       default:

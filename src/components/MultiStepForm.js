@@ -8,6 +8,7 @@ import {
     Step2FormIGBCGreenFactory,
     Step2FormIGBCGreenServices,
     Step2FormIGBCGreenInteriors,
+    Step2FormIGBCNetZero,
     Step2FormLEEDCouncilFees,
     Step2FormTemplate2 
 } from './Step2Forms';
@@ -30,12 +31,23 @@ const MultiStepForm = () => {
         area: '',
         registrationCost: '',
         certificationCost: '',
+        registrationFeesE: '',
+        certificationFeesE: '',
+        registrationFeesW: '',
+        certificationFeesW: '',
+        registrationFeesWa: '',
+        certificationFeesWa: '',
         projectName: '',
         cityName: '',
         areaSqFt: '',
         projectDescription: '',
         termsAndConditions: [],
-        paymentSchedule: []
+        paymentSchedule: [],
+        paymentScheduleEnergy: [],
+        paymentScheduleWater: [],
+        paymentScheduleWaste: [],
+        professionalFeeItems: [],
+        councilFeeItems: [],
     });
 
     const handleChange = (e) => {
@@ -76,6 +88,26 @@ const MultiStepForm = () => {
         });
     };
 
+    const handlePaymentScheduleEnergyChange = (updatedSchedule) => {
+        setFormData(prev => ({ ...prev, paymentScheduleEnergy: updatedSchedule }));
+    };
+
+    const handlePaymentScheduleWaterChange = (updatedSchedule) => {
+        setFormData(prev => ({ ...prev, paymentScheduleWater: updatedSchedule }));
+    };
+
+    const handlePaymentScheduleWasteChange = (updatedSchedule) => {
+        setFormData(prev => ({ ...prev, paymentScheduleWaste: updatedSchedule }));
+    };
+
+    const handleProfessionalFeeItemsChange = (updatedItems) => {
+        setFormData(prev => ({ ...prev, professionalFeeItems: updatedItems }));
+    };
+
+    const handleCouncilFeeItemsChange = (updatedItems) => {
+        setFormData(prev => ({ ...prev, councilFeeItems: updatedItems }));
+    };
+
     const handleNext = (e) => {
         e.preventDefault();
         if (currentStep < 3) {
@@ -107,12 +139,23 @@ const MultiStepForm = () => {
                 area: '',
                 registrationCost: '',
                 certificationCost: '',
+                registrationFeesE: '',
+                certificationFeesE: '',
+                registrationFeesW: '',
+                certificationFeesW: '',
+                registrationFeesWa: '',
+                certificationFeesWa: '',
                 projectName: '',
                 cityName: '',
                 areaSqFt: '',
                 projectDescription: '',
                 termsAndConditions: [],
-                paymentSchedule: []
+                paymentSchedule: [],
+                paymentScheduleEnergy: [],
+                paymentScheduleWater: [],
+                paymentScheduleWaste: [],
+                professionalFeeItems: [],
+                councilFeeItems: [],
             });
         }
     };
@@ -343,7 +386,6 @@ const MultiStepForm = () => {
                     'igbc-green-homes',
                     'igbc-green-school',
                     'igbc-green-health-wellbeing',
-                    'igbc-net-zero',
                 ].includes(formData.template) && (
                     <Step2FormIGBCNew 
                         formData={formData}
@@ -358,17 +400,20 @@ const MultiStepForm = () => {
                     'leed-hospitality',
                     'leed-core-shell',
                     'leed-nc',
+                    'leed-new-construction',
                     'leed-ebom',
                     'leed-net-zero-carbon',
                     'leed-zero-water',
                     'leed-idci',
                 ].includes(formData.template) && (
-                    <Step2FormLEEDCouncilFees 
+                    <Step2FormLEEDCouncilFees
                         formData={formData}
                         handleChange={handleChange}
                         handlePrevious={handlePrevious}
                         handleTermsChange={handleTermsChange}
                         handlePaymentScheduleChange={handlePaymentScheduleChange}
+                        handleProfessionalFeeItemsChange={handleProfessionalFeeItemsChange}
+                        handleCouncilFeeItemsChange={handleCouncilFeeItemsChange}
                     />
                 )}
 
@@ -392,6 +437,18 @@ const MultiStepForm = () => {
                     />
                 )}
 
+                {currentStep === 2 && formData.template === 'igbc-net-zero' && (
+                    <Step2FormIGBCNetZero 
+                        formData={formData}
+                        handleChange={handleChange}
+                        handlePrevious={handlePrevious}
+                        handleTermsChange={handleTermsChange}
+                        handlePaymentScheduleEnergyChange={handlePaymentScheduleEnergyChange}
+                        handlePaymentScheduleWaterChange={handlePaymentScheduleWaterChange}
+                        handlePaymentScheduleWasteChange={handlePaymentScheduleWasteChange}
+                    />
+                )}
+
                 {currentStep === 2 && formData.template === 'igbc-green-factory' && (
                     <Step2FormIGBCGreenFactory 
                         formData={formData}
@@ -402,7 +459,7 @@ const MultiStepForm = () => {
                     />
                 )}
 
-                {currentStep === 2 && formData.template !== 'template2' && formData.template !== 'igbc-existing-building' && formData.template !== 'igbc-green-services-building' && formData.template !== 'igbc-green-interiors' && !['igbc-green-campus','igbc-new-building','igbc-green-healthcare','igbc-green-homes','igbc-green-school','igbc-green-health-wellbeing','igbc-net-zero','igbc-green-factory','leed-hospitality','leed-core-shell','leed-nc','leed-ebom','leed-net-zero-carbon','leed-zero-water','leed-idci'].includes(formData.template) && formData.template !== '' && (
+                {currentStep === 2 && formData.template !== 'template2' && formData.template !== 'igbc-existing-building' && formData.template !== 'igbc-green-services-building' && formData.template !== 'igbc-green-interiors' && !['igbc-green-campus','igbc-new-building','igbc-green-healthcare','igbc-green-homes','igbc-green-school','igbc-green-health-wellbeing','igbc-net-zero','igbc-green-factory','leed-hospitality','leed-core-shell','leed-nc','leed-new-construction','leed-ebom','leed-net-zero-carbon','leed-zero-water','leed-idci'].includes(formData.template) && formData.template !== '' && (
                     <Step2EnergyAudit 
                         formData={formData}
                         handleChange={handleChange}

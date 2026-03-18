@@ -68,24 +68,32 @@ export const generateProposal = async (formData) => {
     }
     
     // 2. Validate payment schedule percentages
-    const paymentSchedule = formData.paymentSchedule || [];
-    if (paymentSchedule.length === 0) {
-      throw new Error('At least one payment milestone is required.');
-    }
-    
-    // Convert to floats and validate total equals exactly 100.0
-    const percentages = paymentSchedule.map(item => {
-      const percent = parseFloat(item.percent || 0);
-      if (percent < 0 || percent > 100) {
-        throw new Error(`Payment percentage must be between 0-100%. Found: ${percent}%`);
+    const validateSchedule = (schedule, label) => {
+      if (schedule.length === 0) {
+        throw new Error(`At least one payment milestone is required for ${label}.`);
       }
-      return percent;
-    });
-    
-    const totalPercentage = percentages.reduce((sum, percent) => sum + percent, 0);
-    if (Math.abs(totalPercentage - 100.0) > 0.01) {
-      throw new Error(`Payment schedule must total exactly 100.0%. Current total: ${totalPercentage.toFixed(1)}%`);
+      const percentages = schedule.map(item => {
+        const percent = parseFloat(item.percent || 0);
+        if (percent < 0 || percent > 100) {
+          throw new Error(`${label}: Payment percentage must be between 0-100%. Found: ${percent}%`);
+        }
+        return percent;
+      });
+      const total = percentages.reduce((sum, p) => sum + p, 0);
+      if (Math.abs(total - 100.0) > 0.01) {
+        throw new Error(`${label} must total exactly 100.0%. Current total: ${total.toFixed(1)}%`);
+      }
+    };
+
+    if (formData.template === 'igbc-net-zero') {
+      validateSchedule(formData.paymentScheduleEnergy || [], 'Energy Payment Schedule');
+      validateSchedule(formData.paymentScheduleWater || [], 'Water Payment Schedule');
+      validateSchedule(formData.paymentScheduleWaste || [], 'Waste Payment Schedule');
+    } else {
+      validateSchedule(formData.paymentSchedule || [], 'Payment Schedule');
     }
+
+    const paymentSchedule = formData.paymentSchedule || [];
 
     // Map frontend template values to backend .docx filenames
     const templateMap = {
@@ -110,14 +118,15 @@ export const generateProposal = async (formData) => {
       'ecbc-a': 'Proposal for ECBC Compliance A.docx',
       'ecbc-bc': 'Proposal for ECBC Compliance B& C.docx',
       'ecbc-abc': 'Proposal for ECBC Compliance A, B& C.docx',
-      'edge-consultancy-audit': 'EDGE Consultancy & Audit Draft Placeholder.docx',
       'leed-hospitality': 'LEED Certification_ Hospitality 2.docx',
       'leed-core-shell': 'LEED Certification_Core & Shell 2.docx',
       'leed-nc': 'LEED NC Certification 2.docx',
+      'leed-new-construction': 'LEED New Construction.docx',
       'leed-ebom': 'LEED_EBOM 2.docx',
       'leed-net-zero-carbon': 'LEED Net Zero Carbon  1.docx',
       'leed-zero-water': 'LEED Zero Water Certification  1.docx',
       'leed-idci': 'LEED v4 ID+CI Certification 1.docx',
+      'edge-consultancy-audit': 'EDGE Consultancy & Audit Draft Placeholder.docx',
       'template2': 'Other Service.docx'
     };
 
@@ -184,12 +193,28 @@ export const generateProposal = async (formData) => {
       currency: String(formData.currency || 'INR'),            // Currency code with default
       project_overview: String(formData.projectDescription || ''), // Maps projectDescription → project_overview (validated above)
       extra_points: (formData.termsAndConditions || []).map(term => String(term)), // Terms array as strings
-      payment_items: paymentSchedule.map(item => ({
-        title: String(item.title || '').trim(),               // Payment milestone title (trimmed)
-        percent: parseFloat(item.percent || 0)                // As float for backend validation
-      })),
-      custom_fields: {}                                        // Empty object for future use
+      payment_items: formData.template === 'igbc-net-zero'
+        ? (formData.paymentScheduleEnergy || []).map(item => ({
+            title: String(item.title || '').trim(),
+            percent: parseFloat(item.percent || 0)
+          }))
+        : paymentSchedule.map(item => ({
+            title: String(item.title || '').trim(),
+            percent: parseFloat(item.percent || 0)
+          })),
+      custom_fields: {}
     };
+
+    if (formData.template === 'igbc-net-zero') {
+      payload.payment_items_water = (formData.paymentScheduleWater || []).map(item => ({
+        title: String(item.title || '').trim(),
+        percent: parseFloat(item.percent || 0)
+      }));
+      payload.payment_items_waste = (formData.paymentScheduleWaste || []).map(item => ({
+        title: String(item.title || '').trim(),
+        percent: parseFloat(item.percent || 0)
+      }));
+    }
 
     // Add IGBC Existing Building specific fields
     if (formData.template === 'igbc-existing-building') {
@@ -228,6 +253,17 @@ export const generateProposal = async (formData) => {
       payload.s_currency = String(formData.currency || 'INR');
     }
 
+    // Add IGBC Net Zero specific fields (Registration + Certification for Energy, Water, Waste)
+    if (formData.template === 'igbc-net-zero') {
+      payload.registration_fees_e = String(formData.registrationFeesE || '0');
+      payload.certification_fees_e = String(formData.certificationFeesE || '0');
+      payload.registration_fees_w = String(formData.registrationFeesW || '0');
+      payload.certification_fees_w = String(formData.certificationFeesW || '0');
+      payload.registration_fees_wa = String(formData.registrationFeesWa || '0');
+      payload.certification_fees_wa = String(formData.certificationFeesWa || '0');
+      payload.s_currency = String(formData.currency || 'INR');
+    }
+
     // Add IGBC Green Factory specific fields
     if (formData.template === 'igbc-green-factory') {
       // Area field is required for IGBC Green Factory (in Sqm)
@@ -236,54 +272,41 @@ export const generateProposal = async (formData) => {
     }
 
     // Add LEED Area_ft (for templates that have it - extracted from areaSqFt field)
-    const leedAreaFtTemplates = ['leed-hospitality', 'leed-core-shell', 'leed-nc', 'leed-net-zero-carbon', 'leed-idci'];
+    const leedAreaFtTemplates = ['leed-hospitality', 'leed-core-shell', 'leed-nc', 'leed-new-construction', 'leed-net-zero-carbon', 'leed-idci'];
     if (leedAreaFtTemplates.includes(formData.template) && formData.areaSqFt) {
       payload.area_ft = String(formData.areaSqFt).replace(/,/g, '');
     }
 
-    // Add LEED Design_and_Construction_Cost (for templates that have it)
-    const leedDesignCostTemplates = ['leed-hospitality', 'leed-nc', 'leed-idci'];
-    if (leedDesignCostTemplates.includes(formData.template) && formData.designAndConstructionCost) {
-      payload.design_and_construction_cost = String(formData.designAndConstructionCost || '0');
+    // Add LEED professional fee items (dynamic rows - LEED NC and similar)
+    const leedProfessionalFeeTemplates = ['leed-nc', 'leed-new-construction'];
+    if (leedProfessionalFeeTemplates.includes(formData.template) && formData.professionalFeeItems && formData.professionalFeeItems.length > 0) {
+      payload.professional_fee_items = formData.professionalFeeItems.map(item => ({
+        service: String(item.service || '').trim(),
+        amount: String(item.amount || '0')
+      }));
+      // Send project name and area for 4-column professional fees table (LEED NC)
+      if (formData.projectName) {
+        payload.professional_fee_project_name = String(formData.projectName).trim();
+      }
     }
 
-    // Add LEED Registration_Cost and Total_Cost (for Hospitality, NC, ID+CI)
-    const leedRegistrationTemplates = ['leed-hospitality', 'leed-nc', 'leed-idci'];
-    if (leedRegistrationTemplates.includes(formData.template)) {
-      if (formData.registrationCost) {
-        payload.registration_cost = String(formData.registrationCost || '0');
-      }
+    // Add LEED council fee items (dynamic rows)
+    const leedCouncilFeeTemplates = ['leed-hospitality', 'leed-nc', 'leed-new-construction', 'leed-idci', 'leed-core-shell'];
+    if (leedCouncilFeeTemplates.includes(formData.template) && formData.councilFeeItems && formData.councilFeeItems.length > 0) {
+      payload.council_fee_items = formData.councilFeeItems.map(item => ({
+        service: String(item.service || '').trim(),
+        amount: String(item.amount || '0')
+      }));
       
-      const regFee = parseAmount(formData.registrationCost);
-      const designCost = parseAmount(formData.designAndConstructionCost);
-      const totalCouncilFees = regFee + designCost;
-      
+      const totalCouncilFees = formData.councilFeeItems.reduce((sum, item) => {
+        return sum + (parseInt((item.amount || '0').toString().replace(/,/g, ''), 10) || 0);
+      }, 0);
       payload.total_cost = formatIndianCommas(totalCouncilFees);
       payload.s_currency = String(formData.currency || 'INR');
     }
 
-    // Add LEED NC specific 3 service costs
-    if (formData.template === 'leed-nc') {
-      if (formData.cost1) {
-        payload.cost_1 = String(formData.cost1 || '0');
-      }
-      if (formData.cost2) {
-        payload.cost_2 = String(formData.cost2 || '0');
-      }
-      if (formData.cost3) {
-        payload.cost_3 = String(formData.cost3 || '0');
-      }
-      
-      // For LEED NC, total_cost = registration + design_and_construction
-      const regFee = parseAmount(formData.registrationCost);
-      const designCost = parseAmount(formData.designAndConstructionCost);
-      const totalCouncilFees = regFee + designCost;
-      payload.total_cost = formatIndianCommas(totalCouncilFees);
-      payload.s_currency = String(formData.currency || 'INR');
-    }
-
-    // Add LEED Core & Shell specific fees
-    if (formData.template === 'leed-core-shell') {
+    // Add LEED Core & Shell specific fees (fallback for old field names if councilFeeItems is empty)
+    if (formData.template === 'leed-core-shell' && (!formData.councilFeeItems || formData.councilFeeItems.length === 0)) {
       if (formData.feasibilityFees) {
         payload.feasibility_fees = String(formData.feasibilityFees || '0');
       }
@@ -296,7 +319,7 @@ export const generateProposal = async (formData) => {
     console.log('📤 Sending to backend:', payload);
     console.log('📄 Template selected:', templateName);
     console.log('🔗 API URL:', `${API_BASE_URL}/api/process-proposal`);
-    console.log('📊 Validation passed - Words:', wordCount, 'Total %:', totalPercentage.toFixed(1));
+    console.log('📊 Validation passed - Words:', wordCount);
 
     const response = await api.post('/api/process-proposal', payload);
 
@@ -498,19 +521,20 @@ export const validateFormData = (formData) => {
     errors.push('Date is required');
   }
 
-  // For LEED NC, validate the 3 separate service costs instead of single cost
-  if (formData.template === 'leed-nc') {
-    if (!formData.cost1 || parseFloat(String(formData.cost1).replace(/,/g, '')) <= 0) {
-      errors.push('LEED BD+C v4 Facilitation cost must be a positive number');
+  // For LEED NC, validate professional fee items table
+  if (['leed-nc', 'leed-new-construction'].includes(formData.template)) {
+    if (!formData.professionalFeeItems || formData.professionalFeeItems.length === 0) {
+      errors.push('At least one Consultancy Fee row is required for LEED NC');
+    } else {
+      const emptyServiceRows = formData.professionalFeeItems.filter(item => !item.service || item.service.trim() === '');
+      if (emptyServiceRows.length > 0) {
+        errors.push('All Consultancy Fee rows must have a service name');
+      }
     }
-    if (!formData.cost2 || parseFloat(String(formData.cost2).replace(/,/g, '')) <= 0) {
-      errors.push('Fundamental Commissioning cost must be a positive number');
+  } else if (!['leed-hospitality', 'leed-idci', 'leed-core-shell'].includes(formData.template)) {
+    if (!formData.cost || parseFloat(String(formData.cost).replace(/,/g, '')) <= 0) {
+      errors.push('Cost must be a positive number');
     }
-    if (!formData.cost3 || parseFloat(String(formData.cost3).replace(/,/g, '')) <= 0) {
-      errors.push('Envelope Commissioning cost must be a positive number');
-    }
-  } else if (!formData.cost || parseFloat(String(formData.cost).replace(/,/g, '')) <= 0) {
-    errors.push('Cost must be a positive number');
   }
 
   if (!formData.currency) {
@@ -543,33 +567,34 @@ export const validateFormData = (formData) => {
   }
 
   // Validate payment schedule
-  if (!formData.paymentSchedule || formData.paymentSchedule.length === 0) {
-    errors.push('At least one payment milestone is required');
-  } else {
-    // Check if all milestones have titles
-    const emptyMilestones = formData.paymentSchedule.filter(item => 
-      !item.title || item.title.trim() === ''
-    );
-    if (emptyMilestones.length > 0) {
-      errors.push('All payment milestones must have a title');
+  const validateScheduleErrors = (schedule, label) => {
+    if (!schedule || schedule.length === 0) {
+      errors.push(`At least one payment milestone is required for ${label}`);
+      return;
     }
-
-    // Check if all percentages are valid (0-100) - convert to number for validation
-    const invalidPercentages = formData.paymentSchedule.filter(item => {
+    const emptyMilestones = schedule.filter(item => !item.title || item.title.trim() === '');
+    if (emptyMilestones.length > 0) {
+      errors.push(`All payment milestones must have a title in ${label}`);
+    }
+    const invalidPercentages = schedule.filter(item => {
       const percent = parseFloat(item.percent || 0);
       return percent < 0 || percent > 100;
     });
     if (invalidPercentages.length > 0) {
-      errors.push('All payment percentages must be between 0 and 100');
+      errors.push(`All payment percentages must be between 0 and 100 in ${label}`);
     }
-
-    // Check if total equals 100%
-    const totalPercentage = formData.paymentSchedule.reduce((sum, item) => 
-      sum + (parseFloat(item.percent) || 0), 0
-    );
+    const totalPercentage = schedule.reduce((sum, item) => sum + (parseFloat(item.percent) || 0), 0);
     if (Math.abs(totalPercentage - 100) > 0.01) {
-      errors.push(`Payment schedule must total 100% (current: ${totalPercentage.toFixed(1)}%)`);
+      errors.push(`${label} must total 100% (current: ${totalPercentage.toFixed(1)}%)`);
     }
+  };
+
+  if (formData.template === 'igbc-net-zero') {
+    validateScheduleErrors(formData.paymentScheduleEnergy, 'Energy Payment Schedule');
+    validateScheduleErrors(formData.paymentScheduleWater, 'Water Payment Schedule');
+    validateScheduleErrors(formData.paymentScheduleWaste, 'Waste Payment Schedule');
+  } else {
+    validateScheduleErrors(formData.paymentSchedule, 'Payment Schedule');
   }
 
   return {
