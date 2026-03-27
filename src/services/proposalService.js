@@ -121,6 +121,8 @@ export const generateProposal = async (formData) => {
       'ecbc-a': 'Proposal for ECBC Compliance A.docx',
       'ecbc-bc': 'Proposal for ECBC Compliance B& C.docx',
       'ecbc-abc': 'Proposal for ECBC Compliance A, B& C.docx',
+      'ecbc-cto': 'Proposal for CTO Compliance .docx',
+      'ecbc-cte': 'Proposal for CTE Compliance .docx',
       'leed-hospitality': 'LEED Certification_ Hospitality 2.docx',
       'leed-core-shell': 'LEED Certification_Core & Shell 2.docx',
       'leed-nc': 'LEED NC Certification 2.docx',

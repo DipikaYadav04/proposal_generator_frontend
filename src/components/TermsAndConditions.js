@@ -162,6 +162,30 @@ const TermsAndConditions = ({ selectedTerms = [], onTermsChange, serviceType = '
           'Travelling, Boarding and Lodgings charges are borne by client and charge as per actuals.',
           'Client must need to implement mandatory requirements for ECBC compliance.'
         ];
+
+      case 'ecbc-cto':
+        return [
+          'GST shall be extra applicable as per government norms at the time of realization.',
+          'Basis of Quotation: The quotation is furnished which is only valid for the scope that has been indicated in the quote & the data provided.',
+          'This proposal is prepared based on the information provided by the client and valid for the scope of work mentioned above, any deviation from this information the charges may need to be altered accordingly.',
+          'The client shall ensure that the necessary data required for the said industry is provided.',
+          'Any delay on account of data sharing shall not be covered in the responsibility of D2O.',
+          'The payments shall be billed as per the said stages and milestones of the project.',
+          'The consultancy fee does not include any third- party testing charges and hence they shall be borne by the client as actual.',
+          'Official departmental fees will be borne by the client as actual.'
+        ];
+
+      case 'ecbc-cte':
+        return [
+          'GST shall be extra applicable as per government norms at the time of realization.',
+          'Basis of Quotation: The quotation is furnished which is only valid for the scope that has been indicated in the quote & the data provided.',
+          'This proposal is prepared based on the information provided by the client and valid for the scope of work mentioned above, any deviation from this information the charges may need to be altered accordingly.',
+          'The client shall ensure that the necessary data required for the said industry is provided.',
+          'Any delay on account of data sharing shall not be covered in the responsibility of D2O.',
+          'The payments shall be billed as per the said stages and milestones of the project.',
+          'The consultancy fee does not include any third- party testing charges and hence they shall be borne by the client as actual.',
+          'Official departmental fees will be borne by the client as actual.'
+        ];
       
       case 'igbc-green-factory':
         return [

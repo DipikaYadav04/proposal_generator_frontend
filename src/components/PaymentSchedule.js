@@ -118,6 +118,16 @@ const PaymentSchedule = ({ paymentItems = [], setPaymentItems, serviceType = 'en
           { title: 'Along with the work order', percent: 50 },
           { title: 'After submission of ECBC reports', percent: 50 }
         ];
+
+      case 'ecbc-cto':
+        return [
+          { title: 'After receiving CTO -NOC', percent: 100 }
+        ];
+
+      case 'ecbc-cte':
+        return [
+          { title: 'After receiving CTE -NOC', percent: 100 }
+        ];
       
       case 'igbc-green-factory':
         return [

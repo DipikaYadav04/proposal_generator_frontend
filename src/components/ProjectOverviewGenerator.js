@@ -122,6 +122,12 @@ const OVERVIEW_TEMPLATES = {
         (p, c, a) => `${p}, situated in ${c}, encompasses ${a} sq. ft. The complete ECBC Forms A, B & C compliance services will evaluate all building systems including envelope thermal performance, HVAC efficiency, and lighting/electrical design for comprehensive energy code adherence.`,
         (p, c, a) => `Located in ${c}, ${p} spans ${a} sq. ft. The proposed ECBC Forms A, B & C assessment provides end-to-end energy code compliance verification covering building envelope, mechanical systems, electrical systems, and overall building energy performance.`,
     ],
+    'ecbc-cto': [
+        (p) => `${p} is a one-stop supermarket chain that aims to offer customers a wide range of basic home and personal products under one roof. ${p} wishes to attain CTO (Consent to Operate) for their existing store in Orange Category in the state of Punjab. Design2Occupancy Services LLP is already consulting ${p} for ECBC, CTE/CTO compliances and would like to propose consulting for attainment of CTE for their Ludhiana, Punjab store.`,
+    ],
+    'ecbc-cte': [
+        (p) => `${p} is a one-stop supermarket chain that aims to offer customers a wide range of basic home and personal products under one roof. ${p} wishes to attain CTE (Consent to Establish) for their existing store in Orange Category in the state of Punjab. Design2Occupancy Services LLP is already consulting ${p} for ECBC, CTE/CTO compliances and would like to propose consulting for attainment of CTE for their Ludhiana, Punjab store.`,
+    ],
     'leed-hospitality': [
         (p, c, a) => `The ${p} is a hospitality project located in ${c}, with a total built-up area of ${a} sq. ft. The project aims to achieve LEED Certification for Hospitality, demonstrating commitment to sustainable hospitality design, energy efficiency, water conservation, and creating a healthy environment for guests and staff while minimizing environmental impact.`,
         (p, c, a) => `${p}, a hospitality development situated in ${c}, encompasses ${a} sq. ft. The project seeks LEED Hospitality certification to integrate sustainable design principles with world-class hospitality, ensuring optimal energy performance, water efficiency, and superior indoor environmental quality.`,

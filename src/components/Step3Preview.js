@@ -42,6 +42,8 @@ const Step3Preview = ({ formData, handlePrevious, isSubmitting, generatedFilenam
         'ecbc-a': 'ECBC Form A',
         'ecbc-bc': 'ECBC Form B&C',
         'ecbc-abc': 'ECBC Form A, B & C',
+        'ecbc-cto': 'ECBC CTO Compliance',
+        'ecbc-cte': 'ECBC CTE Compliance',
         'mep-third-party': 'MEP Third Party Commissioning',
         'template2': 'Simple Proposal'
     };

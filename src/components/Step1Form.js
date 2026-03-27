@@ -16,6 +16,8 @@ const SERVICE_CATEGORIES = {
             { value: 'ecbc-a', label: 'ECBC Form A' },
             { value: 'ecbc-bc', label: 'ECBC Form B&C' },
             { value: 'ecbc-abc', label: 'ECBC Form A, B & C' },
+            { value: 'ecbc-cto', label: 'ECBC CTO Compliance' },
+            { value: 'ecbc-cte', label: 'ECBC CTE Compliance' },
         ],
     },
     'green': {

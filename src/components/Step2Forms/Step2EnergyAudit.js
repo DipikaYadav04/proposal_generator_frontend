@@ -17,7 +17,9 @@ const Step2EnergyAudit = ({ formData, handleChange, handlePrevious, handleTermsC
         'igbc-green-factory': 'IGBC Green Factory',
         'ecbc-a': 'ECBC Form A',
         'ecbc-bc': 'ECBC Form B&C',
-        'ecbc-abc': 'ECBC Form A, B & C'
+        'ecbc-abc': 'ECBC Form A, B & C',
+        'ecbc-cto': 'ECBC CTO Compliance',
+        'ecbc-cte': 'ECBC CTE Compliance'
     };
     const serviceName = templateNames[formData.template] || 'Service';
 
