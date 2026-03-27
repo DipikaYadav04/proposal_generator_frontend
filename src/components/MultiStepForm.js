@@ -5,11 +5,14 @@ import {
     Step2EnergyAudit, 
     Step2FormIGBCExisting, 
     Step2FormIGBCNew, 
+    Step2FormIGBCNewPreFinal,
     Step2FormIGBCGreenFactory,
     Step2FormIGBCGreenServices,
     Step2FormIGBCGreenInteriors,
     Step2FormIGBCNetZero,
     Step2FormLEEDCouncilFees,
+    Step2FormLEEDCommissioning,
+    Step2FormLEEDLCA,
     Step2FormTemplate2 
 } from './Step2Forms';
 import Step3Preview from './Step3Preview';
@@ -40,6 +43,8 @@ const MultiStepForm = () => {
         projectName: '',
         cityName: '',
         areaSqFt: '',
+        fundamentalCxFees: '',
+        enhancedCxFees: '',
         projectDescription: '',
         termsAndConditions: [],
         paymentSchedule: [],
@@ -48,6 +53,8 @@ const MultiStepForm = () => {
         paymentScheduleWaste: [],
         professionalFeeItems: [],
         councilFeeItems: [],
+        finalCertification: '',
+        preFinalCertification: '',
     });
 
     const handleChange = (e) => {
@@ -379,6 +386,16 @@ const MultiStepForm = () => {
                     />
                 )}
 
+                {currentStep === 2 && formData.template === 'igbc-new-building-pre-final' && (
+                    <Step2FormIGBCNewPreFinal
+                        formData={formData}
+                        handleChange={handleChange}
+                        handlePrevious={handlePrevious}
+                        handleTermsChange={handleTermsChange}
+                        handlePaymentScheduleChange={handlePaymentScheduleChange}
+                    />
+                )}
+
                 {currentStep === 2 && [
                     'igbc-green-campus',
                     'igbc-new-building',
@@ -386,6 +403,7 @@ const MultiStepForm = () => {
                     'igbc-green-homes',
                     'igbc-green-school',
                     'igbc-green-health-wellbeing',
+                    'igbc-green-hotel',
                 ].includes(formData.template) && (
                     <Step2FormIGBCNew 
                         formData={formData}
@@ -414,6 +432,26 @@ const MultiStepForm = () => {
                         handlePaymentScheduleChange={handlePaymentScheduleChange}
                         handleProfessionalFeeItemsChange={handleProfessionalFeeItemsChange}
                         handleCouncilFeeItemsChange={handleCouncilFeeItemsChange}
+                    />
+                )}
+
+                {currentStep === 2 && formData.template === 'leed-commissioning' && (
+                    <Step2FormLEEDCommissioning
+                        formData={formData}
+                        handleChange={handleChange}
+                        handlePrevious={handlePrevious}
+                        handleTermsChange={handleTermsChange}
+                        handlePaymentScheduleChange={handlePaymentScheduleChange}
+                    />
+                )}
+
+                {currentStep === 2 && formData.template === 'leed-lca' && (
+                    <Step2FormLEEDLCA
+                        formData={formData}
+                        handleChange={handleChange}
+                        handlePrevious={handlePrevious}
+                        handleTermsChange={handleTermsChange}
+                        handlePaymentScheduleChange={handlePaymentScheduleChange}
                     />
                 )}
 
@@ -459,7 +497,7 @@ const MultiStepForm = () => {
                     />
                 )}
 
-                {currentStep === 2 && formData.template !== 'template2' && formData.template !== 'igbc-existing-building' && formData.template !== 'igbc-green-services-building' && formData.template !== 'igbc-green-interiors' && !['igbc-green-campus','igbc-new-building','igbc-green-healthcare','igbc-green-homes','igbc-green-school','igbc-green-health-wellbeing','igbc-net-zero','igbc-green-factory','leed-hospitality','leed-core-shell','leed-nc','leed-new-construction','leed-ebom','leed-net-zero-carbon','leed-zero-water','leed-idci'].includes(formData.template) && formData.template !== '' && (
+                {currentStep === 2 && formData.template !== 'template2' && formData.template !== 'igbc-existing-building' && formData.template !== 'igbc-green-services-building' && formData.template !== 'igbc-green-interiors' && !['igbc-green-campus','igbc-new-building','igbc-new-building-pre-final','igbc-green-healthcare','igbc-green-homes','igbc-green-school','igbc-green-health-wellbeing','igbc-green-hotel','igbc-net-zero','igbc-green-factory','leed-hospitality','leed-core-shell','leed-nc','leed-new-construction','leed-commissioning','leed-lca','leed-ebom','leed-net-zero-carbon','leed-zero-water','leed-idci'].includes(formData.template) && formData.template !== '' && (
                     <Step2EnergyAudit 
                         formData={formData}
                         handleChange={handleChange}

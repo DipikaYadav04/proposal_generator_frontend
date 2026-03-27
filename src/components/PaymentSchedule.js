@@ -62,6 +62,15 @@ const PaymentSchedule = ({ paymentItems = [], setPaymentItems, serviceType = 'en
           { title: 'Against Finalisation of detailed design drawings', percent: 20 },
           { title: 'After Submission of BOQ', percent: 20 }
         ];
+
+      case 'mep-third-party':
+        return [
+          { title: 'Quality assurance & Design Verification', percent: 10 },
+          { title: 'Issuance of Testing Procedure & Commissioning Plan and upon approval from Project Management', percent: 10 },
+          { title: 'Completion of Testing & Commissioning process - Issuance & Approval of report and Certificate of completion of commissioning and upon approval from Project Management & based on submission of weekly T&C tracker with site observation report', percent: 40 },
+          { title: 'Completion of Integrated System Test - Issuance & Approval of report and recommendation for Handover and upon approval from Project Management', percent: 30 },
+          { title: 'On Resolution of Pending issues & Completion of all process and upon approval from Project Management & Final T&C softcopy report to be submitted', percent: 10 }
+        ];
       
       case 'igbc-new-building':
         return [
@@ -72,7 +81,17 @@ const PaymentSchedule = ({ paymentItems = [], setPaymentItems, serviceType = 'en
           { title: 'On final Submission to IGBC', percent: 20 },
           { title: 'On Award of Rating', percent: 15 }
         ];
-      
+
+      case 'igbc-new-building-pre-final':
+        return [
+          { title: 'Along with work order', percent: 20 },
+          { title: 'On submission of detailed feasibility report', percent: 10 },
+          { title: 'On submission of Energy & Daylight Simulation Report', percent: 20 },
+          { title: 'On 1st Submission to IGBC', percent: 20 },
+          { title: 'On final Submission to IGBC', percent: 20 },
+          { title: 'On Award of Final Certification Rating', percent: 10 }
+        ];
+
       case 'igbc-existing-building':
         return [
           { title: 'Along With Work order', percent: 20 },
@@ -146,7 +165,18 @@ const PaymentSchedule = ({ paymentItems = [], setPaymentItems, serviceType = 'en
           { title: 'Construction Administration/ On submission of final documentation to IGBC', percent: 15 },
           { title: 'Post Construction Services / award of final rating', percent: 20 }
         ];
-      
+
+      case 'igbc-green-hotel':
+        return [
+          { title: 'Along with work order', percent: 20 },
+          { title: 'On Submission of feasibility', percent: 20 },
+          { title: 'After Submission of simulation report', percent: 10 },
+          { title: 'After receiving precertification', percent: 10 },
+          { title: '1st submission to IGBC', percent: 15 },
+          { title: 'On submission of final documentation to IGBC', percent: 15 },
+          { title: 'Award of final rating', percent: 10 }
+        ];
+
       case 'igbc-green-interiors':
         return [
           { title: 'Along with work order', percent: 30 },
@@ -280,6 +310,21 @@ const PaymentSchedule = ({ paymentItems = [], setPaymentItems, serviceType = 'en
           { title: 'On submission of project to USGBC Council', percent: 25 },
           { title: 'On submission of review response to USGBC Council', percent: 25 },
           { title: 'On receipt of green building certificate i.e. LEED EBOM', percent: 25 }
+        ];
+
+      case 'leed-commissioning':
+        return [
+          { title: 'Along With Work order', percent: 30 },
+          { title: 'After the Design work completion (OPR, BOD, CxA plan, CxA requirement, Design review, etc)', percent: 40 },
+          { title: 'After the construction work completion', percent: 10 },
+          { title: 'On Award of LEED Cx credits', percent: 20 }
+        ];
+
+      case 'leed-lca':
+        return [
+          { title: 'Advance payment upon issuance of the Work Order (WO)', percent: 50 },
+          { title: 'Submission of the LCA report for LEED Review', percent: 30 },
+          { title: 'Upon successful award of the LEED credit', percent: 20 }
         ];
       
       default:

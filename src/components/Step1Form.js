@@ -25,6 +25,7 @@ const SERVICE_CATEGORIES = {
                 label: 'IGBC',
                 templates: [
                     { value: 'igbc-new-building', label: 'IGBC New Building' },
+                    { value: 'igbc-new-building-pre-final', label: 'IGBC New Building Pre+Final' },
                     { value: 'igbc-existing-building', label: 'IGBC Existing Building' },
                     { value: 'igbc-green-campus', label: 'IGBC Green Campus' },
                     { value: 'igbc-green-factory', label: 'IGBC Green Factory Certification' },
@@ -34,6 +35,7 @@ const SERVICE_CATEGORIES = {
                     { value: 'igbc-green-health-wellbeing', label: 'IGBC Green Health & Well-Being Certification' },
                     { value: 'igbc-green-services-building', label: 'IGBC Green Services Building Certification' },
                     { value: 'igbc-green-resort', label: 'IGBC Green Resort' },
+                    { value: 'igbc-green-hotel', label: 'IGBC Green Hotel' },
                     { value: 'igbc-green-interiors', label: 'IGBC Green Interiors Certification' },
                     { value: 'igbc-mrts', label: 'IGBC MRTS Certification' },
                     { value: 'igbc-net-zero', label: 'IGBC Net Zero Certification' },
@@ -46,6 +48,8 @@ const SERVICE_CATEGORIES = {
                     { value: 'leed-core-shell', label: 'LEED Certification: Core & Shell' },
                     { value: 'leed-nc', label: 'LEED NC Certification' },
                     { value: 'leed-new-construction', label: 'LEED New Construction' },
+                    { value: 'leed-commissioning', label: 'LEED Commissioning' },
+                    { value: 'leed-lca', label: 'LEED LCA' },
                     { value: 'leed-ebom', label: 'LEED EBOM' },
                     { value: 'leed-net-zero-carbon', label: 'LEED Net Zero Carbon' },
                     { value: 'leed-zero-water', label: 'LEED Zero Water Certification' },
@@ -64,6 +68,7 @@ const SERVICE_CATEGORIES = {
         label: 'MEP',
         templates: [
             { value: 'mep-proposal', label: 'MEP Proposal' },
+            { value: 'mep-third-party', label: 'MEP Third Party Commissioning' },
         ],
     },
     'others': {

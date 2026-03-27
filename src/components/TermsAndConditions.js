@@ -89,7 +89,19 @@ const TermsAndConditions = ({ selectedTerms = [], onTermsChange, serviceType = '
           'The payments shall be billed as per the said stages and milestones of the project.',
           'The travel, lodging and boarding charges are not included in the proposal and will be charged extra as per actuals.'
         ];
-      
+
+      case 'mep-third-party':
+        return [
+          'GST shall be extra applicable as per government norms at the time of realization.',
+          'This proposal is prepared based on the information provided by the client and valid for the scope of work mentioned above, any deviation from this information the charges may need to be altered accordingly.',
+          'Any delay on account of data sharing shall not be covered in the responsibility of D2O.',
+          'The travel, boarding, lodging and food charges are included in above cost.',
+          'The client shall ensure that the necessary data required for the said building is provided.',
+          'The payments shall be billed as per the said stages and milestones of the project.',
+          'D2O team will only be part of reviewing the testing and commissioning conducted by the contractor and no instruments for testing and commissioning will be provided by D2O. In case the testing instruments are required from D2O team extra rental charges of the instruments have to be borne by client.',
+          'D2O\'s responsibility is limited to performing the MEPF commissioning procedures and issuing reports that accurately reflect the system conditions observed at the time of commissioning. Upon completion of the commissioning process and delivery of the report, D2O\'s responsibility shall be considered fulfilled. All matters related, condition, operation, or malfunction of any MEPF equipment are the sole responsibility of the building management. D2O shall not be held liable for any future defects, operational issues, or equipment failures occurring after the commissioning period.'
+        ];
+
       case 'igbc-new-building':
         return [
           'GST shall be applicable extra as per government norms at the time of realization.',
@@ -100,7 +112,18 @@ const TermsAndConditions = ({ selectedTerms = [], onTermsChange, serviceType = '
           'Travel, lodging, Boarding, and food charges are not included in the above scope and the same will be borne by the Client.',
           'The consultancy fee quoted in the proposal will be revised if the project construction time exceeds three years from the date the work order is finalized.'
         ];
-      
+
+      case 'igbc-new-building-pre-final':
+        return [
+          'GST shall be applicable extra as per government norms at the time of realization.',
+          'The quotation is for one-time certification.',
+          'Basis of Quotation: The quotation is furnished which is only valid for the scope that has been indicated in the quote & the data provided.',
+          'A single point of contact from the client\'s team shall be appointed for coordination and exchange of project specific information seamlessly.',
+          'The registration and certification fees payable to the IGBC Council shall be borne directly by the client. These fees are based on the built-up area shared by the client and may vary after the final area calculations carried out by the D2O team.',
+          'Travel, lodging, Boarding, and food charges are not included in the above scope and the same will be borne by the Client as per actuals.',
+          'The consultancy fee quoted in the proposal will be revised if the project construction time exceeds three years from the date the work order is finalized.'
+        ];
+
       case 'igbc-existing-building':
         return [
           'The quotation is for one-time certification.',
@@ -202,7 +225,18 @@ const TermsAndConditions = ({ selectedTerms = [], onTermsChange, serviceType = '
           'Traveling, Lodging & Boarding and other Incidental expenses shall be charged at actual incurred during the visit, in case of more than 4 site visits.',
           'The consultancy fee quoted in the proposal will be revised if the project construction time exceeds three years from the date the work order is finalized.'
         ];
-      
+
+      case 'igbc-green-hotel':
+        return [
+          'GST shall be applicable extra as per government norms at the time of realization.',
+          'The quotation is for one-time certification.',
+          'Basis of Quotation: The quotation is furnished which is only valid for the scope that has been indicated in the quote & the data provided.',
+          'A single point of contact from the client\'s team shall be appointed for coordination and exchange of project specific information seamlessly.',
+          'The registration and final certification fee to be paid to IGBC council by client is based on built up area shared by the client and may vary after area calculation done by D2O team.',
+          'The consultancy fee quoted in the proposal will be revised if the project construction time exceeds three years from the date the work order is finalized.',
+          'Travel, lodging, Boarding, and food charges are not included in the above scope and the same will be borne by the Client as per actuals.'
+        ];
+
       case 'igbc-green-interiors':
         return [
           'GST shall be applicable extra as per government norms at the time of realization.',
@@ -341,6 +375,28 @@ const TermsAndConditions = ({ selectedTerms = [], onTermsChange, serviceType = '
           'A single point of contact from the client\'s team shall be appointed for coordination and exchange of project specific information seamlessly.',
           'The registration and certification fee which needs to be paid to USGBC Council to be borne by the client as per their consultation with GBCI.',
           'The travelling, boarding and lodging expenses will be covered by the client in advance.'
+        ];
+
+      case 'leed-commissioning':
+        return [
+          'Taxes shall be extra applicable as per government norms at the time of realization.',
+          'Basis of Quotation: The quotation is furnished which is only valid for the scope that has been indicated in the quote & the data provided.',
+          'A single point of contact from the client\'s team shall be appointed for coordination and exchange of project specific information seamlessly.',
+          'The payments shall be billed as per the said stages and milestones of the project.',
+          'The client shall ensure that the necessary data required for the said mentioned services is provided.',
+          'Any delay on account of data sharing shall not be covered in the responsibility of D2O.',
+          'The cost towards travel, accommodation, and food has not been included in the proposal and will be borne by the client, to be charged as per actuals.'
+        ];
+
+      case 'leed-lca':
+        return [
+          'GST shall be extra applicable as per government norms at the time of realization.',
+          'Basis of Quotation: The quotation is furnished which is only valid for the scope that has been indicated in the quote & the area of the projects mentioned above. Any changes in area of project may lead to changes in the cost of the project.',
+          'This document is prepared based on the information provided by the client and valid for the scope of work mentioned above, any deviation from this information the charges may need to be altered accordingly.',
+          'Any delay on account of data sharing shall not be covered in the responsibility of D2O.',
+          'Travel, Lodging & Boarding charges are not included in the consultancy fee and will be billed as per actuals and must be borne by the client.',
+          'The client shall ensure that the necessary data required for the said building is provided.',
+          'The payments shall be billed as per the said stages and milestones of the project.'
         ];
       
       case 'igbc-green-school':

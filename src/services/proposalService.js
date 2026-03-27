@@ -102,7 +102,9 @@ export const generateProposal = async (formData) => {
       'fls-audit': 'FLS Audit.docx',
       'hotel-audit': 'Audit for Hotel.docx',
       'mep-proposal': 'MEP Proposal.docx',
+      'mep-third-party': 'Proposal for MEP Third party Commissioning .docx',
       'igbc-new-building': 'IGBC New Building.docx',
+      'igbc-new-building-pre-final': 'IGBC New Building Pre+Final.docx',
       'igbc-existing-building': 'IGBC Existing Building.docx',
       'igbc-green-campus': 'IGBC Green Campus.docx',
       'igbc-green-factory': 'IGBC Green Factory Certification.docx',
@@ -112,6 +114,7 @@ export const generateProposal = async (formData) => {
       'igbc-green-health-wellbeing': 'IGBC Green Health and Well-Being Certification.docx',
       'igbc-green-services-building': 'IGBC Green Services Building Certification.docx',
       'igbc-green-resort': 'IGBC Green Resort.docx',
+      'igbc-green-hotel': 'IGBC Green Hotel.docx',
       'igbc-green-interiors': 'IGBC Green Interiors certification.docx',
       'igbc-mrts': 'IGBC MRTS Certification.docx',
       'igbc-net-zero': 'IGBC Net Zero Certification  1.docx',
@@ -122,6 +125,8 @@ export const generateProposal = async (formData) => {
       'leed-core-shell': 'LEED Certification_Core & Shell 2.docx',
       'leed-nc': 'LEED NC Certification 2.docx',
       'leed-new-construction': 'LEED New Construction.docx',
+      'leed-commissioning': 'Proposal for LEED Commissioning.docx',
+      'leed-lca': 'Proposal for LEED LCA.docx',
       'leed-ebom': 'LEED_EBOM 2.docx',
       'leed-net-zero-carbon': 'LEED Net Zero Carbon  1.docx',
       'leed-zero-water': 'LEED Zero Water Certification  1.docx',
@@ -205,6 +210,25 @@ export const generateProposal = async (formData) => {
       custom_fields: {}
     };
 
+    // LEED Commissioning / LEED LCA custom placeholders
+    // These templates use manifest-driven custom_fields so we can add new placeholders without backend changes.
+    if (formData.template === 'leed-commissioning') {
+      payload.custom_fields = {
+        ...payload.custom_fields,
+        project_name: String(formData.projectName || ''),
+        area: String(formData.area || ''),
+        fundamental_cx_fees: String(formData.fundamentalCxFees || ''),
+        enhanced_cx_fees: String(formData.enhancedCxFees || ''),
+      };
+    }
+
+    if (formData.template === 'leed-lca') {
+      payload.custom_fields = {
+        ...payload.custom_fields,
+        project_name: String(formData.projectName || ''),
+      };
+    }
+
     if (formData.template === 'igbc-net-zero') {
       payload.payment_items_water = (formData.paymentScheduleWater || []).map(item => ({
         title: String(item.title || '').trim(),
@@ -269,6 +293,13 @@ export const generateProposal = async (formData) => {
       // Area field is required for IGBC Green Factory (in Sqm)
       const areaValue = formData.area ? String(formData.area).replace(/,/g, '') : '0';
       payload.area = areaValue; // Send area in Sqm
+    }
+
+    // Add IGBC New Building Pre+Final specific fields
+    if (formData.template === 'igbc-new-building-pre-final') {
+      payload.final_certification = String(formData.finalCertification || '0');
+      payload.pre_final_certification = String(formData.preFinalCertification || '0');
+      payload.cost = String(formData.finalCertification || '0'); // Fallback for any generic cost placeholder
     }
 
     // Add LEED Area_ft (for templates that have it - extracted from areaSqFt field)
@@ -531,7 +562,14 @@ export const validateFormData = (formData) => {
         errors.push('All Consultancy Fee rows must have a service name');
       }
     }
-  } else if (!['leed-hospitality', 'leed-idci', 'leed-core-shell'].includes(formData.template)) {
+  } else if (formData.template === 'igbc-new-building-pre-final') {
+    if (!formData.finalCertification || parseFloat(String(formData.finalCertification).replace(/,/g, '')) <= 0) {
+      errors.push('Final Certification fee is required');
+    }
+    if (!formData.preFinalCertification || parseFloat(String(formData.preFinalCertification).replace(/,/g, '')) <= 0) {
+      errors.push('Pre + Final Certification fee is required');
+    }
+  } else if (!['leed-hospitality', 'leed-idci', 'leed-core-shell', 'leed-commissioning'].includes(formData.template)) {
     if (!formData.cost || parseFloat(String(formData.cost).replace(/,/g, '')) <= 0) {
       errors.push('Cost must be a positive number');
     }

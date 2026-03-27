@@ -14,6 +14,7 @@ const Step3Preview = ({ formData, handlePrevious, isSubmitting, generatedFilenam
         'hotel-audit': 'Hotel Energy Audit',
         'mep-proposal': 'MEP Proposal',
         'igbc-new-building': 'IGBC New Building',
+        'igbc-new-building-pre-final': 'IGBC New Building Pre+Final',
         'igbc-existing-building': 'IGBC Existing Building',
         'igbc-green-campus': 'IGBC Green Campus',
         'igbc-green-factory': 'IGBC Green Factory Certification',
@@ -23,6 +24,7 @@ const Step3Preview = ({ formData, handlePrevious, isSubmitting, generatedFilenam
         'igbc-green-health-wellbeing': 'IGBC Green Health & Well-Being Certification',
         'igbc-green-services-building': 'IGBC Green Services Building Certification',
         'igbc-green-resort': 'IGBC Green Resort',
+        'igbc-green-hotel': 'IGBC Green Hotel',
         'igbc-green-interiors': 'IGBC Green Interiors Certification',
         'igbc-mrts': 'IGBC MRTS Certification',
         'igbc-net-zero': 'IGBC Net Zero Certification',
@@ -30,6 +32,8 @@ const Step3Preview = ({ formData, handlePrevious, isSubmitting, generatedFilenam
         'leed-core-shell': 'LEED Certification: Core & Shell',
         'leed-nc': 'LEED NC Certification',
         'leed-new-construction': 'LEED New Construction',
+        'leed-commissioning': 'LEED Commissioning',
+        'leed-lca': 'LEED LCA',
         'leed-ebom': 'LEED EBOM',
         'leed-net-zero-carbon': 'LEED Net Zero Carbon',
         'leed-zero-water': 'LEED Zero Water Certification',
@@ -38,6 +42,7 @@ const Step3Preview = ({ formData, handlePrevious, isSubmitting, generatedFilenam
         'ecbc-a': 'ECBC Form A',
         'ecbc-bc': 'ECBC Form B&C',
         'ecbc-abc': 'ECBC Form A, B & C',
+        'mep-third-party': 'MEP Third Party Commissioning',
         'template2': 'Simple Proposal'
     };
 

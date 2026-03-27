@@ -4,42 +4,37 @@ import PaymentSchedule from '../PaymentSchedule';
 import ProjectOverviewGenerator from '../ProjectOverviewGenerator';
 import { Building2 } from 'lucide-react';
 
-const Step2FormIGBCNew = ({ formData, handleChange, handlePrevious, handleTermsChange, handlePaymentScheduleChange }) => {
+const Step2FormIGBCNewPreFinal = ({ formData, handleChange, handlePrevious, handleTermsChange, handlePaymentScheduleChange }) => {
     // Format cost with Indian comma style (e.g., 100000 → 1,00,000)
     const formatCostWithCommas = (value) => {
         if (!value) return '';
-        // Remove existing commas first
         const numericValue = value.toString().replace(/,/g, '');
-        
-        // Indian numbering system
         const lastThree = numericValue.substring(numericValue.length - 3);
         const otherNumbers = numericValue.substring(0, numericValue.length - 3);
-        
         if (otherNumbers !== '') {
             return otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ',') + ',' + lastThree;
         }
         return lastThree;
     };
 
-    // Handle cost input with comma formatting
-    const handleCostChange = (e) => {
-        const inputValue = e.target.value.replace(/[^0-9]/g, ''); // Keep only numbers
+    const handleCostChange = (fieldName) => (e) => {
+        const inputValue = e.target.value.replace(/[^0-9]/g, '');
         handleChange({
             target: {
-                name: 'cost',
-                value: formatCostWithCommas(inputValue) // Store WITH commas
+                name: fieldName,
+                value: formatCostWithCommas(inputValue)
             }
         });
     };
 
     return (
         <div className="form-step">
-            <h2>Step 2: IGBC Green Campus Certification</h2>
+            <h2>Step 2: IGBC New Building Pre + Final Certification</h2>
             <p className="template-badge" style={{ background: 'linear-gradient(135deg, #2ECC71 0%, #27AE60 100%)' }}>
                 <Building2 style={{ width: '16px', height: '16px', marginRight: '6px', display: 'inline' }} />
-                IGBC Green Campus
+                IGBC New Building Pre + Final
             </p>
-            
+
             <div className="form-group">
                 <label htmlFor="currency">Currency:</label>
                 <select
@@ -58,22 +53,30 @@ const Step2FormIGBCNew = ({ formData, handleChange, handlePrevious, handleTermsC
             </div>
 
             <div className="form-group">
-                <label htmlFor="cost">Consultancy Cost:</label>
+                <label htmlFor="finalCertification">IGBC Green New Building Final Certification (Fees):</label>
                 <input
                     type="text"
-                    id="cost"
-                    name="cost"
-                    value={formatCostWithCommas(formData.cost)}
-                    onChange={handleCostChange}
-                    placeholder="Enter consultancy cost (e.g., 5,00,000)"
+                    id="finalCertification"
+                    name="finalCertification"
+                    value={formatCostWithCommas(formData.finalCertification)}
+                    onChange={handleCostChange('finalCertification')}
+                    placeholder="e.g., 5,00,000"
                     required
                 />
-                <p style={{ 
-                    fontSize: '0.85rem', 
-                    color: '#666', 
-                    marginTop: '8px', 
-                    fontStyle: 'italic' 
-                }}>
+            </div>
+
+            <div className="form-group">
+                <label htmlFor="preFinalCertification">Pre + Final Certification (Fees):</label>
+                <input
+                    type="text"
+                    id="preFinalCertification"
+                    name="preFinalCertification"
+                    value={formatCostWithCommas(formData.preFinalCertification)}
+                    onChange={handleCostChange('preFinalCertification')}
+                    placeholder="e.g., 6,50,000"
+                    required
+                />
+                <p style={{ fontSize: '0.85rem', color: '#666', marginTop: '8px', fontStyle: 'italic' }}>
                     * GST extra as per government norms
                 </p>
             </div>
@@ -87,18 +90,18 @@ const Step2FormIGBCNew = ({ formData, handleChange, handlePrevious, handleTermsC
             </div>
 
             <div className="form-group" style={{ width: '100%', maxWidth: '100%' }}>
-                <TermsAndConditions 
+                <TermsAndConditions
                     selectedTerms={formData.termsAndConditions}
                     onTermsChange={handleTermsChange}
-                    serviceType={formData.template}
+                    serviceType="igbc-new-building-pre-final"
                 />
             </div>
 
             <div className="form-group" style={{ width: '100%', maxWidth: '100%' }}>
-                <PaymentSchedule 
+                <PaymentSchedule
                     paymentItems={formData.paymentSchedule}
                     setPaymentItems={handlePaymentScheduleChange}
-                    serviceType={formData.template}
+                    serviceType="igbc-new-building-pre-final"
                 />
             </div>
 
@@ -112,4 +115,4 @@ const Step2FormIGBCNew = ({ formData, handleChange, handlePrevious, handleTermsC
     );
 };
 
-export default Step2FormIGBCNew;
+export default Step2FormIGBCNewPreFinal;
